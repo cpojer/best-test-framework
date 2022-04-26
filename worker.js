@@ -3,7 +3,7 @@ const expect = require('expect');
 const mock = require('jest-mock');
 const {describe, it, run, resetState} = require('jest-circus');
 const vm = require('vm');
-const NodeEnvironment = require('jest-environment-node');
+const NodeEnvironment = require('jest-environment-node').default;
 const {dirname, basename, join} = require('path');
 
 exports.runTest = async function (testFile) {
@@ -25,11 +25,13 @@ exports.runTest = async function (testFile) {
       return module.exports;
     };
     environment = new NodeEnvironment({
-      testEnvironmentOptions: {
-        describe,
-        it,
-        expect,
-        mock,
+      projectConfig: {
+        testEnvironmentOptions: {
+          describe,
+          it,
+          expect,
+          mock,
+        },
       },
     });
     customRequire(basename(testFile));
